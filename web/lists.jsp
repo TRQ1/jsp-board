@@ -87,7 +87,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr><td colspan="4" height="5"></td></tr>
     <tr align="right">
-        <td><input type=button value="글쓰기"></td>
+        <td><input type=button value="글쓰기" OnClick="window.location='write.jsp'"></td>
     </tr>
 </table>
 </body>
