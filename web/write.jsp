@@ -56,7 +56,7 @@ function writeCheck()
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr style="text-align:center;">
                 <td width="5"></td>
-                <td>글쓰기</td> <td width="5">/td>
+                <td>글쓰기</td><td width="5"></td>
             </tr>
             </table>
             <table>

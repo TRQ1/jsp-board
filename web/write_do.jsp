@@ -23,7 +23,7 @@
     try {
         Connection conn = DriverManager.getConnection(url, userid, passwd); //DB 연결
 
-        String sql = "INSERT INTO board1(author,passwd,title,content) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO board(author,passwd,title,content,todate) VALUES(?,?,?,?,NOW())";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         pstmt.setString(1, author);
@@ -41,5 +41,5 @@
 %>
 <script language=javascript>
     self.window.alert("입력한 글을 저장하였습니다.");
-    location.href="list.jsp";
+    location.href="lists.jsp";
 </script>

@@ -65,7 +65,8 @@
     <tr height="25" align="center">
         <td>&nbsp;</td>
         <td><%=id %></td>
-        <td align="left"><%=title %></td>
+        <!-- get 방식으로 주소 뒤에 ?를 붙인 변수명=변수값 이 해당 주소에 입력 -->
+        <td align="left"><a href="detail.jsp?id=<%=id %>"><%=title %></td>
         <td align="center"><%=author %></td>
         <td align="center"><%=todate %></td>
         <td>&nbsp;</td>
