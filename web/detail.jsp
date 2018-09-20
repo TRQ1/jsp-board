@@ -5,7 +5,7 @@
   Time: PM 5:30
   To change this template use File | Settings | File Templates.
 --%>
-<<%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%
     request.setCharacterEncoding("UTF-8");
@@ -90,7 +90,7 @@
                 <tr align="right">
                     <td width="0">&nbsp;</td>
                     <td colspan="2" width="399">
-                        <input type=button value="수정">
+                        <input type=button value="수정" name=id OnClick="window.location='modify_check.jsp?id=<%=idx%>'">
                         <input type=button value="삭제" name=id OnClick="window.location='delete.jsp?id=<%=idx%>'">
                         <input type=button value="목록" OnClick="window.location='lists.jsp'">
                     <td width="0">&nbsp;</td>
