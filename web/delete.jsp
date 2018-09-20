@@ -5,7 +5,7 @@
   Time: PM 6:23
   To change this template use File | Settings | File Templates.
 --%>
-<<%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <script language = "javascript">
 function deleteCheck() // 비밀번호값 확인
 {
@@ -54,6 +54,7 @@ function deleteCheck() // 비밀번호값 확인
                     <td colspan="2">
                         <input type=button value="삭제" OnClick="javascript:deleteCheck();">
                         <input type=button value="취소" OnClick="javascript:history.back(-1)">
+                        <input type=button value="목록" OnClick="window.location='lists.jsp?idx=<%=idx%>'">
                     <td>&nbsp;</td>
                 </tr>
             </table>
