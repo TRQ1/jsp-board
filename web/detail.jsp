@@ -82,7 +82,7 @@
                 conn.close();
                 }
             } catch(SQLException e) {
-                out.println( e.toString() );
+                System.out.println( e.toString() );
                 }
             %>
                 <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>
@@ -91,7 +91,7 @@
                     <td width="0">&nbsp;</td>
                     <td colspan="2" width="399">
                         <input type=button value="수정">
-                        <input type=button value="삭제">
+                        <input type=button value="삭제" name=id OnClick="window.location='delete.jsp?id=<%=idx%>'">
                         <input type=button value="목록" OnClick="window.location='lists.jsp'">
                     <td width="0">&nbsp;</td>
                 </tr>

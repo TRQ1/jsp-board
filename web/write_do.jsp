@@ -26,6 +26,7 @@
         String sql = "INSERT INTO board(author,passwd,title,content,todate) VALUES(?,?,?,?,NOW())";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
+        // 받은 파라메터를 각 디비값에 셋팅
         pstmt.setString(1, author);
         pstmt.setString(2, password);
         pstmt.setString(3, title);
@@ -36,7 +37,7 @@
         conn.close();
     }
     catch(SQLException e) {
-        out.println( e.toString() );
+        System.out.println( e.toString() );
     }
 %>
 <script language=javascript>

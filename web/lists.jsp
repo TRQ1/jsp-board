@@ -79,7 +79,7 @@
             stmt.close(); //stmt 객체 반환
             conn.close(); //conn 객체 반환
         } catch(SQLException e) {
-            out.println( e.toString() );
+            System.out.println( e.toString() );
         }
     %>
     <tr height="1" bgcolor="#82B5DF"><td colspan="6" width="752"></td></tr>
