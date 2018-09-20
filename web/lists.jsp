@@ -8,6 +8,22 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <!--sql를 사용하기 위해 import-->
 <%@ page import="java.sql.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<%
+    final int pageSize = 5;// 한페이지에 보일 게시물 수 
+    final int countPage = 6;// 아래에 보일 페이지 최대개수 1~5 / 6~10 / 11~15 식으로 5개로 고정 
+    int pg = 1; //기본 페이지값 
+
+    if(request.getParameter("pg")!=null) {//받아온 pg값이 있을때, 다른페이지일때 
+        pg = Integer.parseInt(request.getParameter("pg"));// pg값을 저장
+    }
+    int start = (pg * pageSize) - (pageSize - 1);// 해당페이지에서 시작번호
+    int end = (pg * pageSize);// 해당페이지에서 끝번호
+    int allPage = 0;// 전체 페이지수 
+    int startPage = ((pg - 1) / countPage * countPage) + 1;// 시작블럭숫자 (1~5페이지일경우 1, 6~10일경우 6) 
+    int endPage = ((pg - 1) / countPage * countPage) + countPage;// 끝 블럭 숫자 (1~5일 경우 5, 6~10일경우 10) 
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -33,9 +49,18 @@
         }
         rs.close();
 
-        String sqlList = "SELECT id, title, author, todate from board order by id DESC"; // 쿼리문
-        rs = stmt.executeQuery(sqlList); //DB 실행
+        //String sqlList = "SELECT id, title, author, todate from board order by id DESC"; // 쿼리문
+        //rs = stmt.executeQuery(sqlList); //DB 실행
 
+        allPage = (int)Math.ceil(total / (double)pageSize);
+
+        if(endPage > allPage) {
+            endPage = allPage;
+        }
+        System.out.println("count : " + total);
+        // id 값 기준으로 sort.. (추후 다른 컬럼을 생성하여 기준점을 잡을 예정)
+        String sqlList = "SELECT id, author, title, todate from board where id >="+start + " and id <= "+ end +" order by id DESC";
+        rs = stmt.executeQuery(sqlList);
 %>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr height="5"><td width="5"></td></tr>
@@ -66,7 +91,7 @@
         <td>&nbsp;</td>
         <td><%=id %></td>
         <!-- get 방식으로 주소 뒤에 ?를 붙인 변수명=변수값 이 해당 주소에 입력 -->
-        <td align="left"><a href="detail.jsp?id=<%=id %>"><%=title %></td>
+        <td align="left"><a href="detail.jsp?id=<%=id%>&pg=<%=pg%>"><%=title %></td>
         <td align="center"><%=author %></td>
         <td align="center"><%=todate %></td>
         <td>&nbsp;</td>
@@ -85,6 +110,43 @@
     <tr height="1" bgcolor="#82B5DF"><td colspan="6" width="752"></td></tr>
 </table>
 
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr><td colspan="4" height="5"></td></tr>
+    <tr>
+        <td align="center">
+            <%
+                if(pg > countPage) {
+            %>
+            [<a href="lists.jsp?pg=1">◀◀</a>]
+            [<a href="lists.jsp?pg=<%=startPage-1%>">◀</a>]
+            <%
+                }
+            %>
+
+            <%
+                for(int i=startPage; i<= endPage; i++){
+                    if(i == pg){
+            %>
+            <u><b>[<%=i %>]</b></u>
+            <%
+            }else{
+            %>
+            [<a href="lists.jsp?pg=<%=i %>"><%=i %></a>]
+            <%
+                    }
+                }
+            %>
+
+            <%
+                if(endPage < allPage){
+            %>
+            [<a href="lists.jsp?pg=<%=endPage+1%>">▶</a>]
+            [<a href="lists.jsp?pg=<%=allPage%>">▶▶</a>]
+            <%
+                }
+            %>
+        </td>
+    </tr>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr><td colspan="4" height="5"></td></tr>
     <tr align="right">
