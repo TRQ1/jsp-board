@@ -38,9 +38,9 @@
 
         //password값이랑 파라메터로 받아온 pass값이 같을 경우 modify로 포워딩
         if(password.equals(pass)){
-            RequestDispatcher dispatcher = request.getRequestDispatcher("modify.jsp");
-            request.setAttribute("request","requestValue");
-            dispatcher.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("modify.jsp"); // getRequestDisparcher로 modify.jsp 호출
+            request.setAttribute("request","requestValue"); //setAttribute로 기존 정보를 보내준다.
+            dispatcher.forward(request, response); //forwarding
 
         } else {        // 그게 아닐경우 알람창 발생
 %>
