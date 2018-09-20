@@ -18,10 +18,10 @@
     if(request.getParameter("pg")!=null) {//받아온 pg값이 있을때, 다른페이지일때 
         pg = Integer.parseInt(request.getParameter("pg"));// pg값을 저장
     }
-    int start = (pg * pageSize) - (pageSize - 1);// 해당페이지에서 시작번호
-    int end = (pg * pageSize);// 해당페이지에서 끝번호
+    int start = (pg * pageSize) - (pageSize - 1);// 해당페이지에서 시작번호 5 - 4  = 1 //id 값에 대한 시작 번호
+    int end = (pg * pageSize);// 해당페이지에서 끝번호 5  // id 값에 대한 끝 번호
     int allPage = 0;// 전체 페이지수 
-    int startPage = ((pg - 1) / countPage * countPage) + 1;// 시작블럭숫자 (1~5페이지일경우 1, 6~10일경우 6) 
+    int startPage = ((pg - 1) / countPage * countPage) + 1;// 시작블럭숫자 (1~5페이지일경우 1, 6~10일경우 6) 시작페이지를 구하기
     int endPage = ((pg - 1) / countPage * countPage) + countPage;// 끝 블럭 숫자 (1~5일 경우 5, 6~10일경우 10) 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -52,14 +52,15 @@
         //String sqlList = "SELECT id, title, author, todate from board order by id DESC"; // 쿼리문
         //rs = stmt.executeQuery(sqlList); //DB 실행
 
-        allPage = (int)Math.ceil(total / (double)pageSize);
+        allPage = (int)Math.ceil(total / (double)pageSize); // 전체 게시물 갯수와 페이지에 보여야할 갯수를 나누어서 필요한 전체 페이지 수를 구한다. 나눠진 값에대해 자리 올림을 하여 필요 페이지수를 구한다.
 
-        if(endPage > allPage) {
+        if(endPage > allPage) { //마지막 페이지가 모든 페이지 값보다 클시에 마지막 페이지는 총 페이지 수로 대체
             endPage = allPage;
         }
         System.out.println("count : " + total);
         // id 값 기준으로 sort.. (추후 다른 컬럼을 생성하여 기준점을 잡을 예정)
-        String sqlList = "SELECT id, author, title, todate from board where id >="+start + " and id <= "+ end +" order by id DESC";
+        // id 값이 시작 번호 이상이고 end 번호 이하인 값들을 얻어온다. (해당 값을 현재 페이지에 넣어주기위해서)
+        String sqlList = "SELECT id, author, title, todate from board where id >="+ start + " and id <= "+ end +" order by id DESC";
         rs = stmt.executeQuery(sqlList);
 %>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -83,8 +84,8 @@
 
         while(rs.next()) { // rs 값이 있을 경우
             int id = rs.getInt(1);
-            String title= rs.getString(2);
-            String author = rs.getString(3);
+            String author = rs.getString(2);
+            String title = rs.getString(3);
             String todate = rs.getString(4);
     %>
     <tr height="25" align="center">
@@ -115,7 +116,7 @@
     <tr>
         <td align="center">
             <%
-                if(pg > countPage) {
+                if(pg > countPage) {  //  기본 페이지수
             %>
             [<a href="lists.jsp?pg=1">◀◀</a>]
             [<a href="lists.jsp?pg=<%=startPage-1%>">◀</a>]
@@ -124,7 +125,7 @@
             %>
 
             <%
-                for(int i=startPage; i<= endPage; i++){
+                for(int i=startPage; i<= endPage; i++){ // 시작페이지부터 마지막페이지까지 하나씩 증가를 하고 출력 하고 해당 숫자의 페이징을 호출하여 해당 게시물로 이동
                     if(i == pg){
             %>
             <u><b>[<%=i %>]</b></u>
@@ -138,7 +139,7 @@
             %>
 
             <%
-                if(endPage < allPage){
+                if(endPage < allPage){  // 마지막 페이지가 모든 페이지보다 낮을 경우에는 다음을 눌렀을때 마지막 페이지 + 1을 값으로 페이징을 호출,
             %>
             [<a href="lists.jsp?pg=<%=endPage+1%>">▶</a>]
             [<a href="lists.jsp?pg=<%=allPage%>">▶▶</a>]

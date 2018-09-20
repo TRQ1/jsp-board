@@ -37,7 +37,7 @@
         }
 
         //password값이랑 파라메터로 받아온 pass값이 같을 변경된 값 업데이트
-        if(password.equals(pass)){
+        if(password.equals(pass)) {
             sql = "UPDATE board SET title='"+ title+"' ,content='"+ content +"' WHERE id=" + idx;
             System.out.println(sql);
             stmt.executeUpdate(sql);

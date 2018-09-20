@@ -8,25 +8,24 @@
 <%@ page import="java.sql.*"%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <script language = "javascript">
-    function modifyCheck()
-    {
+    function modifyCheck() {
         var form = document.modifyform;
 
-        if( !form.password.value )
+        if(!form.password.value)
         {
             alert( "비밀번호를 적어주세요" );
             form.password.focus();
             return;
         }
 
-        if( !form.title.value )
+        if(!form.title.value)
         {
             alert( "제목을 적어주세요" );
             form.title.focus();
             return;
         }
 
-        if( !form.content.value )
+        if(!form.content.value)
         {
             alert( "내용을 적어주세요" );
             form.content.focus();
@@ -69,7 +68,7 @@
         stmt.close();
         conn.close();
     }catch(SQLException e) {
-       System.out.println( e.toString() );
+       System.out.println(e.toString());
     }
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -106,7 +105,7 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">비밀번호</td>
-                        <td><input name="password" size="50" maxlength="50"></td>
+                        <td><input type="password" name="password" size="50" maxlength="50"></td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>

@@ -77,7 +77,7 @@ function writeCheck()
                 <tr>
                     <td>&nbsp;</td>
                     <td align="center">비밀번호</td>
-                    <td><input name="password" size="50" maxlength="50"></td>
+                    <td><input type="password" name="password" size="50" maxlength="50"></td>
                     <td>&nbsp;</td>
                 </tr>
                 <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>

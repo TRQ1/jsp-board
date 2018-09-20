@@ -31,6 +31,7 @@
         String sql = "SELECT passwd FROM board WHERE id=" + idx;
         System.out.println("sql passwd : " + sql);
         ResultSet rs = stmt.executeQuery(sql);
+        System.out.println(rs);
 
         if(rs.next()) {
             password = rs.getString(1);
@@ -40,9 +41,7 @@
         //password값이랑 파라메터로 받아온 pass값이 같을 경우 modify로 포워딩
         if(password.equals(pass)){
             RequestDispatcher dispatcher = request.getRequestDispatcher("modify.jsp"); // getRequestDisparcher로 modify.jsp 호출
-            request.setAttribute("request","requestValue"); //setAttribute로 기존 정보를 보내준다.
-            dispatcher.forward(request, response); //forwarding
-
+            dispatcher.forward(request, response); //forwarding 하여 기존 정보를 보낸다.
         } else {        // 그게 아닐경우 알람창 발생
 %>
 <script language=javascript>

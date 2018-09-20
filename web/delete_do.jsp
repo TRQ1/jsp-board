@@ -16,6 +16,8 @@
     String passwd = "qwer0987";
 
     String password = "";
+
+
     int idx = Integer.parseInt(request.getParameter("id"));
     String pass = request.getParameter("password");
 

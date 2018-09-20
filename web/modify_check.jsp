@@ -11,9 +11,9 @@ function modifyCheck()
 {
     var form = document.modifyform;
 
-    if( !form.password.value )
+    if(!form.password.value)
     {
-        alert( "비밀번호를 적어주세요" );
+        alert("비밀번호를 적어주세요");
         form.password.focus();
         return;
     }
