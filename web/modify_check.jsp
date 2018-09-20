@@ -31,7 +31,7 @@ function modifyCheck()
 </head>
 <body>
 <table>
-    <form name=modifyform method=post action="modify_check_do.jsp?id=<%=idx%>">
+    <form name=modifyform method=post action="modify_check_do.jsp?id=<%=idx%>&pg=<%=pg%>">
         <tr>
             <td>
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">

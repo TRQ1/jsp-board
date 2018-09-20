@@ -19,6 +19,7 @@
 
     String password = "";
     int idx = Integer.parseInt(request.getParameter("id"));
+    int pg = Integer.parseInt(request.getParameter("pg"));
     String pass = request.getParameter("password");
 
     try {

@@ -17,6 +17,7 @@
     String password = "";
 
     int idx = Integer.parseInt(request.getParameter("id"));
+    int pg = Integer.parseInt(request.getParameter("pg"));
 
     try {
         Connection conn = DriverManager.getConnection(url, userid, passwd); //DB 연결
@@ -43,7 +44,7 @@
 %>
 <script language=javascript>
     self.window.alert("글이 수정되었습니다.");
-    location.href="lists.jsp?id=<%=idx%>";
+    location.href="lists.jsp?pg=<%=pg%>";
 </script>
 <%
         rs.close();
