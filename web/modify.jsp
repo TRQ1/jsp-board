@@ -11,13 +11,6 @@
     function modifyCheck() {
         var form = document.modifyform;
 
-        if(!form.password.value)
-        {
-            alert( "비밀번호를 적어주세요" );
-            form.password.focus();
-            return;
-        }
-
         if(!form.title.value)
         {
             alert( "제목을 적어주세요" );
@@ -45,7 +38,7 @@
     String author = "";
     String content = "";
     String title = "";
-    String password = "";
+    String spassword = "";
 
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
@@ -62,7 +55,7 @@
             author = rs.getString(1);
             title = rs.getString(2);
             content = rs.getString(3);
-            password = rs.getString(4);
+            spassword = rs.getString(4);
         }
         rs.close();
         stmt.close();
@@ -105,7 +98,7 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">비밀번호</td>
-                        <td><input type="password" name="password" size="50" maxlength="50"></td>
+                        <td><input type="spassword" name="spassword" size="50" maxlength="50"></td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
