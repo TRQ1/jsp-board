@@ -85,32 +85,18 @@
             int id = rs.getInt(1);
             String author = rs.getString(2);
             String checkTitle = rs.getString(3);
-            String todate = rs.getString(4);
+            String todateBefore = rs.getString(4);
+            String todate = todateBefore.substring(0, todateBefore.length() - 2); // 소수점 자르기 추후 데이터 타입 나오게 할 예정
 
             // checkTitle 에 200자 이상인 경우 ... 을 붙인다.
-            char oneChar = 0; // 글짜 하나에 대한 변수
             String title = ""; // 실제 제목을 넣을 변수
-            int titleLen = 0; // 제목의 길이 변수
-            int titleByte = 0; // 제목의 바이트 변수
+            int titleLen = checkTitle.length(); //
+            System.out.println("Length : " + titleLen);
 
-            titleLen = (Integer)checkTitle.length(); //
-
-            for(int j = 0; j < titleLen; j++){ //
-
-                oneChar = checkTitle.charAt(j); // 글자 하난씩 넣기
-                if ( oneChar  <  0xac00 || 0xd7a3 < oneChar){ //한글 영역 주소 범위 0xAC00-0xD7A3 체크 하여 아래 로직 실행
-                    titleByte++;
-                    System.out.println("byte : " + titleByte);
-                }else{ // 그 외에는 짝수로 맞춰주기 위해 + 2 를 해준다 (홀수 바이트인 경우는 커트하기가 어렵다고하여 짝수로 맞춰줌)
-                    titleByte += 2;
-                    System.out.println("byte2 : " + titleByte);
-                }
-
-                if (titleByte > 200){ // 200 이상인 경우 titlelen 숫자에서 - 10 을 한후 뒤에 ... 을 붙인다.
-                    title = checkTitle.substring(0, titleLen - 10 )+"...";
-                }else{
-                    title = checkTitle;
-                }
+            if (titleLen > 200) { // 200 이상인 경우 titlelen 숫자에서 - 10 을 한후 뒤에 ... 을 붙인다.
+                title = checkTitle.substring(0, titleLen - 10) + "...";
+            } else {
+                title = checkTitle;
             }
 
     %>
