@@ -14,6 +14,8 @@
     String url = "jdbc:mariadb://localhost:3306/boards";
     String userid = "root";
     String passwd = "qwer0987";
+    int count = 0;
+    int countAfter = 0;
 
     String author = request.getParameter("author"); //write.jsp에서 author에 입력한 데이터값
     String password = request.getParameter("password"); //write.jsp에서 password에 입력한 데이터값
@@ -22,6 +24,16 @@
 
     try {
         Connection conn = DriverManager.getConnection(url, userid, passwd); //DB 연결
+        Statement stmt = conn.createStatement();
+
+        String sqlCount = "SELECT COUNT(*) FROM board";
+        System.out.println(sqlCount);
+        ResultSet rs = stmt.executeQuery(sqlCount);
+
+        if(rs.next()) {
+            count = rs.getInt(1);
+        }
+        rs.close();
 
         String sql = "INSERT INTO board(author,passwd,title,content,todate) VALUES(?,?,?,?,NOW())";
         PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -33,14 +45,32 @@
         pstmt.setString(4, content);
 
         pstmt.execute();
-        pstmt.close();
-        conn.close();
-    }
-    catch(SQLException e) {
-        System.out.println( e.toString() );
-    }
+
+        String sqlCountAfter = "SELECT COUNT(*) FROM board";
+        System.out.println(sqlCountAfter);
+        ResultSet rsca = stmt.executeQuery(sqlCountAfter);
+
+        if(rsca.next()) {
+            countAfter = rs.getInt(1);
+        }
+        rsca.close();
+
+        System.out.println("count1 : "+ count);
+        System.out.println("countAfter1 : "+ countAfter);
+
+        if(count++ == countAfter){
 %>
 <script language=javascript>
     self.window.alert("입력한 글을 저장하였습니다.");
     location.href="lists.jsp";
 </script>
+<%
+        stmt.close();
+        pstmt.close();
+        conn.close();
+        }
+}
+catch(SQLException e) {
+System.out.println( e.toString() );
+}
+%>
