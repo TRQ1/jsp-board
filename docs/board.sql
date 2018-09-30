@@ -1,6 +1,6 @@
 CREATE TABLE `board` (
     `id`    int(100) NOT NULL AUTO_INCREMENT,
-    `author`    tinytext    NOT NULL,
+    `author`    varchar(50)    NOT NULL,
     `todate`    datetime    NOT NULL    DEFAULT '0000-00-00 00:00:00',
     `modidate`    datetime   NULL    DEFAULT '0000-00-00 00:00:00',
 	  `title`  varchar(300) NULL,
