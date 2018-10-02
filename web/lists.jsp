@@ -10,6 +10,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
+<%@include file="database_process.jsp" %>
 <%
     final int pageSize = 5;// 한페이지에 보일 게시물 수 
     final int countPage = 6;// 아래에 보일 페이지 최대개수 1~5 / 6~10 / 11~15 식으로 5개로 고정 
@@ -31,37 +32,24 @@
 </head>
 <body>
 <%
-    Class.forName("org.mariadb.jdbc.Driver");
-    String url = "jdbc:mariadb://localhost:3306/boards";
-    String userid = "root";
-    String passwd = "qwer0987";
-    int total = 0;
-
+    Connection conn = connDb(); // DB connection 메소드 호출
+    PreparedStatement pstm = null;
+    ResultSet rs = null;
     try {
-        Connection conn = DriverManager.getConnection(url,userid,passwd); //DB 연결
-        Statement stmt = conn.createStatement(); //Statement 객체 생성
-
-        String sqlCount = "SELECT COUNT(*) FROM board"; // board 테이블에 데이터 갯수 확인
-        ResultSet rs = stmt.executeQuery(sqlCount); //DB 실행
-
-        if(rs.next()){ //rs 값에 들어올 경우
-            total = rs.getInt(1); // select문 count 값
-        }
-        rs.close();
+        int total = sqlCount(); // count 값을 구하기 위한 메소드 호출
 
         //String sqlList = "SELECT id, title, author, todate from board order by id DESC"; // 쿼리문
         //rs = stmt.executeQuery(sqlList); //DB 실행
-
         allPage = (int)Math.ceil(total / (double)pageSize); // 전체 게시물 갯수와 페이지에 보여야할 갯수를 나누어서 필요한 전체 페이지 수를 구한다. 나눠진 값에대해 자리 올림을 하여 필요 페이지수를 구한다.
 
         if(endPage > allPage) { //마지막 페이지가 모든 페이지 값보다 클시에 마지막 페이지는 총 페이지 수로 대체
             endPage = allPage;
         }
         System.out.println("count : " + total);
-        // id 값 기준으로 sort.. (추후 다른 컬럼을 생성하여 기준점을 잡을 예정)
-        // id 값이 시작 번호 이상이고 end 번호 이하인 값들을 얻어온다. (해당 값을 현재 페이지에 넣어주기위해서)
-        String sqlList = "SELECT id, author, title, todate from board where id >="+ start + " and id <= "+ end +" order by id DESC";
-        rs = stmt.executeQuery(sqlList);
+
+        String sqlList = "SELECT id, author, title, todate from board where id >=" + start + " and id <= " + end + " order by id DESC";
+        pstm = conn.prepareStatement(sqlList);
+        rs = pstm.executeQuery(sqlList);
 %>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr height="5"><td width="5"></td></tr>
@@ -98,7 +86,6 @@
             } else {
                 title = checkTitle;
             }
-
     %>
     <tr height="25" align="center">
         <td>&nbsp;</td>
@@ -113,12 +100,13 @@
     <%
                 }
             }
-            rs.close(); //rs 객체 반환
-            stmt.close(); //stmt 객체 반환
-            conn.close(); //conn 객체 반환
-        } catch(SQLException e) {
-            System.out.println( e.toString() );
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            close(pstm, conn);
+            resultClose(rs);
         }
+
     %>
     <tr height="1" bgcolor="#82B5DF"><td colspan="6" width="752"></td></tr>
 </table>

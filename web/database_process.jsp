@@ -6,35 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="java.sql.*" %>
-<%@include file="write.jsp" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-
-
 <%!
-    request.setCharacterEncoding("UTF-8");
-
-    int idx = Integer.parseInt(request.getParameter("id"));
-    int total = 0;
-
-    String authorSelect = "";
-    String titleSelect = "";
-    String contentSelect = "";
-    String todateSelect = "";
-    String password = "";
-
-    int start = request.getParameter("start");
-    int end = request.getParameter("end");
-
-
-    String titleUpdate = "";
-    String contentUpdate = "";
-
-    String authorInsert = request.getParameter("author"); //write.jsp에서 author에 입력한 데이터값
-    String passwordInsert = request.getParameter("password"); //write.jsp에서 password에 입력한 데이터값
-    String titleInsert = request.getParameter("title"); //write.jsp에서 title에 입력한 데이터값
-    String contentInsert = request.getParameter("content"); //write.jsp에서 content에 입력한 데이터값
-
-
     public Connection connDb() {
         Connection conn = null;
         try {
@@ -54,7 +27,6 @@
     /**
      *
      * @param pstmt
-     * @param rs
      * @param conn
      * PrepareStatement, ResultSet, Connection 종료를 위한 메소드
      */
@@ -88,10 +60,12 @@
     /**
      * SQLCount 쿼리를 위한 메소드
      */
-    public void sqlCount() {
+
+    public int sqlCount() {
         PreparedStatement pstm = null;
         ResultSet rs = null;
         Connection conn = connDb();
+        int total = 0;
         try {
             String sqlCount = "SELECT COUNT(*) FROM board";
             pstm = conn.prepareStatement(sqlCount);
@@ -106,15 +80,17 @@
             close(pstm, conn);
             resultClose(rs);
         }
+        return total;
     }
 
     /**
      * 게시판 글 패스워드를 확인 하기위한 메소드
      */
-    public void sqlPasswd() {
+    public String sqlPasswd(int idx) {
         PreparedStatement pstm = null;
         ResultSet rs = null;
         Connection conn = connDb();
+        String password = "";
         try {
             String sqlPasswd = "SELECT passwd FROM board WHERE id=" + idx;
             pstm = conn.prepareStatement(sqlPasswd);
@@ -129,15 +105,36 @@
             close(pstm, conn);
             resultClose(rs);
         }
+        return password;
+    }
+
+    public void sqlDelete(int idx) {
+        PreparedStatement pstm = null;
+        Connection conn = connDb();
+        try {
+            String sqlDelete = "DELETE FROM board WHERE id=" + idx;
+            System.out.println(sqlDelete);
+            pstm = conn.prepareStatement(sqlDelete);
+            pstm.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            close(pstm, conn);
+        }
     }
 
     /**
      * 게시판 정보를 읽어드리기위한 메소드
      */
-    public void sqlSelect() {
+    public void sqlSelect(int idx) {
         PreparedStatement pstm = null;
         ResultSet rs = null;
         Connection conn = connDb();
+        String authorSelect = "";
+        String titleSelect = "";
+        String contentSelect = "";
+        String todateSelect = "";
         try {
             String sqlSelect = "SELECT author, title, content, todate FROM board WHERE id=" + idx;
             pstm = conn.prepareStatement(sqlSelect);
@@ -155,8 +152,12 @@
             close(pstm, conn);
             resultClose(rs);
         }
+        return;
     }
 
+    /**
+     * sqlList를 리턴하기 위한 class
+     */
     /**
      *
      * @param start
@@ -167,21 +168,26 @@
         PreparedStatement pstm = null;
         ResultSet rs = null;
         Connection conn = connDb();
+        int id = 0;
+        String author = "";
+        String todate = "";
+        String title = "";
+        String todateBefore = "";
+        String checkTitle = "";
         try {
             String sqlList = "SELECT id, author, title, todate from board where id >=" + start + " and id <= " + end + " order by id DESC";
             pstm = conn.prepareStatement(sqlList);
             rs = pstm.executeQuery(sqlList);
 
             while (rs.next()) {
-                int id = rs.getInt(1);
-                String author = rs.getString(2);
-                String checkTitle = rs.getString(3);
-                String todateBefore = rs.getString(4);
-                String todate = todateBefore.substring(0, todateBefore.length() - 2); // 소수점 자르기 추후 데이터 타입 나오게 할 예정
+                id = rs.getInt(1);
+                author = rs.getString(2);
+                checkTitle = rs.getString(3);
+                todateBefore = rs.getString(4);
+                todate = todateBefore.substring(0, todateBefore.length() - 2); // 소수점 자르기 추후 데이터 타입 나오게 할 예정
 
                 // checkTitle 에 200자 이상인 경우 ... 을 붙인다.
-                String title = ""; // 실제 제목을 넣을 변수
-                int titleLen = checkTitle.length(); //
+                int titleLen = checkTitle.length();
 
                 if (titleLen > 200) { // 200 이상인 경우 titlelen 숫자에서 - 10 을 한후 뒤에 ... 을 붙인다.
                     title = checkTitle.substring(0, titleLen - 10) + "...";
@@ -203,7 +209,7 @@
      * @param content
      * 게시판 글 제목 및 내용을 수정하기위한 메소드
      */
-    public void sqlUpdate(String title, String content) {
+    public void sqlUpdate(String title, String content, int idx) {
         PreparedStatement pstm = null;
         Connection conn = connDb();
         try {
@@ -212,8 +218,9 @@
             pstm.executeUpdate(sqlUpdate);
         } catch (SQLException e) {
             System.out.println(e);
+        } finally {
+            close(pstm, conn);
         }
-        close(pstm, conn);
     }
 
     /**
@@ -230,8 +237,8 @@
         Connection conn = connDb();
         try {
             String sqlInsert = "INSERT INTO board(author,passwd,title,content,todate) VALUES(?,?,?,?,NOW())";
+            System.out.println(sqlInsert);
             pstm = conn.prepareStatement(sqlInsert);
-
             pstm.setString(1, authorInsert);
             pstm.setString(2, passwordInsert);
             pstm.setString(3, titleInsert);

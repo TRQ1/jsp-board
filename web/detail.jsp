@@ -7,25 +7,21 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
+<%@include file="database_process.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
-
-    Class.forName("org.mariadb.jdbc.Driver");
-    String url = "jdbc:mariadb://localhost:3306/boards";
-    String userid = "root";
-    String passwd = "qwer0987";
+    Connection conn = connDb(); // DB connection 메소드 호출
+    PreparedStatement pstm = null;
+    ResultSet rs = null;
 
     int idx = Integer.parseInt(request.getParameter("id")); // lists.jsp에서 get 메소드로 전달된 id 값
     int pg = Integer.parseInt(request.getParameter("pg"));
     System.out.println(idx);
 
     try {
-        Connection conn = DriverManager.getConnection(url, userid, passwd); //DB 연결
-        Statement stmt = conn.createStatement();
-
-        String sql = "SELECT author, title, content FROM board WHERE id=" + idx;
-        System.out.println(sql);
-        ResultSet rs = stmt.executeQuery(sql);
+        String sqlSelect = "SELECT author, title, content, todate FROM board WHERE id=" + idx;
+        pstm = conn.prepareStatement(sqlSelect);
+        rs = pstm.executeQuery(sqlSelect);
 
         // 해당 id 값에 대한 정보
         if (rs.next()) {
@@ -77,14 +73,14 @@
                     <td width="399" colspan="2" height="200">
                 </tr>
             <%
-                stmt.executeUpdate(sql);
-                rs.close();
-                stmt.close();
-                conn.close();
                 }
-            } catch(SQLException e) {
-                System.out.println( e.toString() );
+                } catch(SQLException e) {
+                    System.out.println( e.toString() );
+                } finally {
+                    close(pstm, conn);
+                    resultClose(rs);
                 }
+
             %>
                 <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>
                 <tr height="1" bgcolor="#82B5DF"><td colspan="4" width="407"></td></tr>

@@ -9,48 +9,28 @@
 <%@ page import="java.net.*"%>
 <%@ page import="java.io.*"%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@include file="database_process.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
 
     Class.forName("org.mariadb.jdbc.Driver");
-    String url = "jdbc:mariadb://localhost:3306/boards";
-    String userid = "root";
-    String passwd = "qwer0987";
+    Connection conn = connDb(); // DB connection 메소드 호출
 
     String password = "";
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
     String pass = request.getParameter("password");
 
-    try {
-        Connection conn = DriverManager.getConnection(url, userid, passwd); //DB 연결
-        Statement stmt = conn.createStatement();
-
-        System.out.println("password :" + pass);
-
-        String sql = "SELECT passwd FROM board WHERE id=" + idx;
-        System.out.println("sql passwd : " + sql);
-        ResultSet rs = stmt.executeQuery(sql);
-        System.out.println(rs);
-
-        if(rs.next()) {
-            password = rs.getString(1);
-            System.out.println(password);
-        }
-
-        //password값이랑 파라메터로 받아온 pass값이 같을 경우 modify로 포워딩
-        if(password.equals(pass)){
-            RequestDispatcher dispatcher = request.getRequestDispatcher("modify.jsp"); // getRequestDisparcher로 modify.jsp 호출
-            dispatcher.forward(request, response); //forwarding 하여 기존 정보를 보낸다.
-        } else {        // 그게 아닐경우 알람창 발생
+    password = sqlPasswd(idx); //메소드 호출하여 password 확인
+    if (password.equals(pass)) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("modify.jsp"); // getRequestDisparcher로 modify.jsp 호출
+        dispatcher.forward(request, response); //forwarding 하여 기존 정보를 보낸다.
+    } else {        // 그게 아닐경우 알람창 발생
 %>
 <script language=javascript>
     self.window.alert("비밀번호를 틀렸습니다.");
     location.href="javascript:history.back()";
 </script>
 <%
-        }
-    } catch(SQLException e) {
-        System.out.println(e.toString());
     }
 %>
