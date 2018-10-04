@@ -16,6 +16,7 @@
 
     int idx = Integer.parseInt(request.getParameter("id")); // lists.jsp에서 get 메소드로 전달된 id 값
     int pg = Integer.parseInt(request.getParameter("pg"));
+    int cookieValue = Integer.parseInt(request.getParameter("cookieValue"));
     System.out.println(idx);
 
     try {

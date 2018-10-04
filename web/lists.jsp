@@ -12,6 +12,30 @@
 <%@ page import="java.util.Date" %>
 <%@include file="database_process.jsp" %>
 <%
+    /**
+     * 쿠키값 불러오기 (로그인된 쿠키값을 확인)
+     */
+    String userId = request.getParameter("userId");
+
+    Cookie[] cookies = request.getCookies(); // 요청정보로부터 쿠키를 가져온다.
+    String cookieName = null;
+    String cookieValue = null;
+    System.out.println("cookies : " + cookies);
+    if (cookies != null) {
+        for (int i = 0; i < cookies.length; i++) {      // 쿠키 배열을 반복문으로 돌린다.
+            String name = cookies[i].getName();      // 쿠키의 이름을 가져온다.
+            String value = cookies[i].getValue();    // 쿠키의 값을 가져온다.
+            System.out.println("name =" + name);
+            System.out.println("value =" + value);
+            if (value.equals(userId)) {
+                cookieValue = value;
+            }
+        }
+    } else if (cookies == null) {
+        cookieValue = "방문자";
+    }
+%>
+<%
     final int pageSize = 5;// 한페이지에 보일 게시물 수 
     final int countPage = 6;// 아래에 보일 페이지 최대개수 1~5 / 6~10 / 11~15 식으로 5개로 고정 
     int pg = 1; //기본 페이지값 
@@ -52,7 +76,9 @@
         rs = pstm.executeQuery(sqlList);
 %>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr height="5"><td width="5"></td></tr>
+    <tr height="5">Welcome to <%=cookieValue%>
+        <td width="5"></td>
+    </tr>
     <tr style="text-align:center;">
         <td width="5"></td>
         <td width="20">번호</td>
@@ -91,7 +117,8 @@
         <td>&nbsp;</td>
         <td><%=id %></td>
         <!-- get 방식으로 주소 뒤에 ?를 붙인 변수명=변수값 이 해당 주소에 입력 -->
-        <td align="left"><a href="detail.jsp?id=<%=id%>&pg=<%=pg%>"><%=title %></td>
+        <td align="left"><a href="detail.jsp?id=<%=id%>&pg=<%=pg%>&cookieValue=<%=cookieValue%>"><%=title %>
+        </td>
         <td align="center"><%=author %></td>
         <td align="center"><%=todate %></td>
         <td>&nbsp;</td>
