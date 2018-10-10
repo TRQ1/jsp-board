@@ -71,7 +71,20 @@
         }
         System.out.println("count : " + total);
 
-        String sqlList = "SELECT id, author, title, todate from board where id >=" + start + " and id <= " + end + " order by id DESC";
+        int sort = 1;
+        String sqlSort = "SELECT id from board order by parent desc, step asc"; // parent id값 기준으로 order by 하여 오름차순 정렬
+        pstm = conn.prepareStatement(sqlSort);
+        rs = pstm.executeQuery(sqlSort);
+
+        while (rs.next()) {
+            int deptNum = rs.getInt(1);
+            String sqlDeptUpdate = "UPDATE board SET sort=" + sort + " where id=" + deptNum; // parent 값을 기준으로 정렬에 사용할 쿼리 정보를 sort 컬럼에 update
+            System.out.println(sqlDeptUpdate);
+            pstm.executeUpdate(sqlDeptUpdate);
+            sort++;
+        }
+        resultClose(rs);
+        String sqlList = "SELECT id, author, title, todate, indent from board where sort >= " + start + " and sort <= " + end + " order by sort ASC"; // sort 값 기준으로 페이징 갯수 많큼 oder by 하여 오름차순 정렬
         pstm = conn.prepareStatement(sqlList);
         rs = pstm.executeQuery(sqlList);
 %>
@@ -101,6 +114,7 @@
             String checkTitle = rs.getString(3);
             String todateBefore = rs.getString(4);
             String todate = todateBefore.substring(0, todateBefore.length() - 2); // 소수점 자르기 추후 데이터 타입 나오게 할 예정
+            int indent = rs.getInt(5);
 
             // checkTitle 에 200자 이상인 경우 ... 을 붙인다.
             String title = ""; // 실제 제목을 넣을 변수
@@ -116,8 +130,18 @@
     <tr height="25" align="center">
         <td>&nbsp;</td>
         <td><%=id %></td>
-        <!-- get 방식으로 주소 뒤에 ?를 붙인 변수명=변수값 이 해당 주소에 입력 -->
-        <td align="left"><a href="detail.jsp?id=<%=id%>&pg=<%=pg%>&cookieValue=<%=cookieValue%>"><%=title %>
+        <td align="left">
+            <%
+                for (int j = 0; j < indent; j++) {
+            %>
+            &nbsp;&nbsp;&nbsp;
+            <%
+                }
+                if (indent != 0) {
+                }
+            %>
+            <!-- get 방식으로 주소 뒤에 ?를 붙인 변수명=변수값 이 해당 주소에 입력 -->
+            <a href="detail.jsp?id=<%=id%>&pg=<%=pg%>"><%=title %>
         </td>
         <td align="center"><%=author %></td>
         <td align="center"><%=todate %></td>
@@ -180,6 +204,7 @@
     <tr align="right">
         <td><input type=button value="글쓰기" OnClick="window.location='write.jsp'"></td>
     </tr>
+</table>
 </table>
 </body>
 </html>

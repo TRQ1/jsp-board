@@ -8,6 +8,11 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@include file="database_process.jsp" %>
+<script language="javascript">
+    function getCookie(userCookie) {
+
+    }
+</script>
 <%
     request.setCharacterEncoding("UTF-8");
     Connection conn = connDb(); // DB connection 메소드 호출
@@ -16,7 +21,6 @@
 
     int idx = Integer.parseInt(request.getParameter("id")); // lists.jsp에서 get 메소드로 전달된 id 값
     int pg = Integer.parseInt(request.getParameter("pg"));
-    int cookieValue = Integer.parseInt(request.getParameter("cookieValue"));
     System.out.println(idx);
 
     try {
@@ -89,6 +93,8 @@
                     <td width="0">&nbsp;</td>
                     <td colspan="2" width="399">
                         <input type=button value="수정" name=id OnClick="window.location='modify_check.jsp?id=<%=idx%>&pg=<%=pg%>'">
+                        <input type=button value="답글" name=id
+                               OnClick="window.location='reply.jsp?id=<%=idx%>&pg=<%=pg%>'">
                         <input type=button value="삭제" name=id OnClick="window.location='delete.jsp?id=<%=idx%>&pg=<%=pg%>'">
                         <input type=button value="목록" OnClick="window.location='lists.jsp?pg=<%=pg%>'">
                     <td width="0">&nbsp;</td>

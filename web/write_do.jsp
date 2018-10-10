@@ -11,17 +11,28 @@
 <%
     request.setCharacterEncoding("UTF-8");
     Connection conn = connDb(); // DB connection 메소드 호출
+    PreparedStatement pstm = null;
+    ResultSet rs = null;
 
     int count = 0;
     int countAfter = 0;
+    int max = 0;
 
     String author = request.getParameter("author"); //write.jsp에서 author에 입력한 데이터값
     String password = request.getParameter("password"); //write.jsp에서 password에 입력한 데이터값
     String title = request.getParameter("title"); //write.jsp에서 title에 입력한 데이터값
     String content = request.getParameter("content"); //write.jsp에서 content에 입력한 데이터값
 
+    String sqlMax = "SELECT MAX(id) FROM board";
+    pstm = conn.prepareStatement(sqlMax);
+    rs = pstm.executeQuery(sqlMax);
+
+    if (rs.next()) {
+        max = rs.getInt(1);
+    }
+
     count = sqlCount();
-    sqlInsert(author, password, title, content);
+    sqlInsert(author, password, title, content, "post", max);
     countAfter = sqlCount();
 
     System.out.println("count1 : " + count);
