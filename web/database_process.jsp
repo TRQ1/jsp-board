@@ -232,23 +232,113 @@
      *
      * 게시판 글을 쓰기 위한 메소드
      */
-    public void sqlInsert(String authorInsert, String passwordInsert, String titleInsert, String contentInsert) {
+    public void sqlInsert(String authorInsert, String passwordInsert, String titleInsert, String contentInsert, String kindType, int parentInsert) {
         PreparedStatement pstm = null;
         Connection conn = connDb();
         try {
-            String sqlInsert = "INSERT INTO board(author,passwd,title,content,todate) VALUES(?,?,?,?,NOW())";
+            String sqlInsert = "INSERT INTO board(author,passwd,title,content,type,parent,todate) VALUES(?,?,?,?,?,?,NOW())";
             System.out.println(sqlInsert);
             pstm = conn.prepareStatement(sqlInsert);
             pstm.setString(1, authorInsert);
             pstm.setString(2, passwordInsert);
             pstm.setString(3, titleInsert);
             pstm.setString(4, contentInsert);
+            if (kindType == "post") {
+                pstm.setString(5, kindType);
+            } else if (kindType == "comment") {
+                pstm.setString(5, kindType);
+            }
+            pstm.setInt(6, parentInsert + 1);
             pstm.execute();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
             close(pstm, conn);
         }
+    }
+
+    public void sqlReplyInsert(String authorInsert, String passwordInsert, String titleInsert, String contentInsert, String kindType, int parentInsert, int indentInsert, int stepInsert) {
+        PreparedStatement pstm = null;
+        Connection conn = connDb();
+        try {
+            String sqlInsert = "INSERT INTO board(author,passwd,title,content,type,parent,indent,step,todate) VALUES(?,?,?,?,?,?,?,?,NOW())";
+            System.out.println(sqlInsert);
+            pstm = conn.prepareStatement(sqlInsert);
+            pstm.setString(1, authorInsert);
+            pstm.setString(2, passwordInsert);
+            pstm.setString(3, titleInsert);
+            pstm.setString(4, contentInsert);
+            if (kindType == "post") {
+                pstm.setString(5, kindType);
+            } else if (kindType == "comment") {
+                pstm.setString(5, kindType);
+            }
+            pstm.setInt(6, parentInsert);
+            pstm.setInt(7, indentInsert + 1);
+            pstm.setInt(8, stepInsert + 1);
+            pstm.execute();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            close(pstm, conn);
+        }
+    }
+
+    /**
+     *
+     * @param accountid
+     * @return
+     * 로그인시 필요한 유저 계정을 읽어오는 메소드
+     */
+    public String sqlUserId(int accountid) {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        Connection conn = connDb();
+        String userid = null;
+        try {
+            String sqluserid = "SELECT userid FROM account WHERE id=" + accountid;
+            pstm = conn.prepareStatement(sqluserid);
+            rs = pstm.executeQuery(sqluserid);
+
+            if (rs.next()) {
+                userid = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            close(pstm, conn);
+            resultClose(rs);
+        }
+        return userid;
+    }
+
+    /**
+     *
+     * @param accountid
+     * @return
+     * 로그인시 필요한 유저 패스워드 계정을 읽어오는 메소드
+     */
+    public String sqlUserPass(int accountid) {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        Connection conn = connDb();
+        String userpass = null;
+        try {
+            String sqluserpass = "SELECT userpass FROM account WHERE id=" + accountid;
+            pstm = conn.prepareStatement(sqluserpass);
+            rs = pstm.executeQuery(sqluserpass);
+
+            if (rs.next()) {
+                userpass = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            close(pstm, conn);
+            resultClose(rs);
+        }
+        return userpass;
     }
 
 %>
