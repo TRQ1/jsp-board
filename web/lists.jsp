@@ -71,6 +71,10 @@
         }
         System.out.println("count : " + total);
 
+        /**
+         * 아래 parent 기준으로 정렬하기 위해 사용 하는 로직 및 쿼리는 추후 쿼리로만 처리할 예정 << 테스트중
+         */
+
         int sort = 1;
         String sqlSort = "SELECT id from board order by parent desc, step asc"; // parent id값 기준으로 order by 하여 오름차순 정렬
         pstm = conn.prepareStatement(sqlSort);
