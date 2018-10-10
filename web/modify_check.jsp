@@ -61,6 +61,7 @@ function modifyCheck()
                 </table>
             </td>
         </tr>
+    </form>
 </table>
 </body>
 </html>

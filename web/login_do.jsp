@@ -46,7 +46,6 @@
 
     String userGId = userGetName;
     String userGPass = userGetPass;
-
     if (userName.equals(userGId) && userPasswd.equals(userGPass)) {
         Cookie info = new Cookie("board", userName);    // 쿠키를 생성한다. 이름:testCookie, 값 : Hello Cookie
         info.setMaxAge(365 * 24 * 60 * 60);                                 // 쿠키의 유효기간을 365일로 설정한다.
