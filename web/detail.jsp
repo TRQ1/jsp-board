@@ -8,11 +8,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@include file="database_process.jsp" %>
-<script language="javascript">
-    function getCookie(userCookie) {
-
-    }
-</script>
 <%
     request.setCharacterEncoding("UTF-8");
     Connection conn = connDb(); // DB connection 메소드 호출
@@ -21,6 +16,7 @@
 
     int idx = Integer.parseInt(request.getParameter("id")); // lists.jsp에서 get 메소드로 전달된 id 값
     int pg = Integer.parseInt(request.getParameter("pg"));
+    int cookieValue = Integer.parseInt(request.getParameter("cookieValue"));
     System.out.println(idx);
 
     try {

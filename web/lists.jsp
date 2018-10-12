@@ -11,28 +11,22 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
 <%@include file="database_process.jsp" %>
+<%@include file="cookie_process.jsp" %>
 <%
     /**
      * 쿠키값 불러오기 (로그인된 쿠키값을 확인)
      */
     String userId = request.getParameter("userId");
-
-    Cookie[] cookies = request.getCookies(); // 요청정보로부터 쿠키를 가져온다.
-    String cookieName = null;
+    System.out.println("userid : " + userId);
+    String cookies = obtainCookie(request, userId);
+    System.out.println("cookiestest : " + cookies);
     String cookieValue = null;
-    System.out.println("cookies : " + cookies);
     if (cookies != null) {
-        for (int i = 0; i < cookies.length; i++) {      // 쿠키 배열을 반복문으로 돌린다.
-            String name = cookies[i].getName();      // 쿠키의 이름을 가져온다.
-            String value = cookies[i].getValue();    // 쿠키의 값을 가져온다.
-            System.out.println("name =" + name);
-            System.out.println("value =" + value);
-            if (value.equals(userId)) {
-                cookieValue = value;
-            }
-        }
-    } else if (cookies == null) {
+        cookieValue = cookies;
+        System.out.println("cookies1 : " + cookies);
+    } else {
         cookieValue = "방문자";
+        System.out.println("cookies1 : " + cookies);
     }
 %>
 <%
@@ -145,7 +139,7 @@
                 }
             %>
             <!-- get 방식으로 주소 뒤에 ?를 붙인 변수명=변수값 이 해당 주소에 입력 -->
-            <a href="detail.jsp?id=<%=id%>&pg=<%=pg%>"><%=title %>
+            <a href="detail.jsp?id=<%=id%>&pg=<%=pg%>&user=<%=userId%>"><%=title %>
         </td>
         <td align="center"><%=author %></td>
         <td align="center"><%=todate %></td>

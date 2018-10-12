@@ -38,6 +38,7 @@
     사용자:<br/><input type="text" name="userId"/><br/>
     패스워드:<br/><input type="password" name="userPasswd"/><br/>
     <input type="submit" value="Login" OnClick="javascript:checkLogin();"/>
+    <input type="submit" value="비회원 접속" OnClick="window.location='lists.jsp'"/>
 </form>
 </body>
 </html>

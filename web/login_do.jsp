@@ -8,6 +8,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@include file="database_process.jsp" %>
+<%@include file="cookie_process.jsp" %>
 <%
     String userName = request.getParameter("userId");
     String userPasswd = request.getParameter("userPasswd");
@@ -20,6 +21,7 @@
     String userId = request.getParameter("userId");
     String userGetName = null;
     String userGetPass = null;
+    String noAccountUser = null;
 
     try {
         String sqlAccount = "SELECT id, userid, userpasswd FROM account";
@@ -46,12 +48,12 @@
 
     String userGId = userGetName;
     String userGPass = userGetPass;
-    if (userName.equals(userGId) && userPasswd.equals(userGPass)) {
-        Cookie info = new Cookie("board", userName);    // 쿠키를 생성한다. 이름:testCookie, 값 : Hello Cookie
-        info.setMaxAge(365 * 24 * 60 * 60);                                 // 쿠키의 유효기간을 365일로 설정한다.
-        response.addCookie(info);
-        Cookie[] cookies = request.getCookies(); // 요청정보로부터 쿠키를 가져온다.
-        System.out.println("cookies : " + cookies);
+    if (userName == null && userPasswd == null) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("lists.jsp"); // getRequestDisparcher로 list.jsp 호출
+        dispatcher.forward(request, response); //forwarding 하여 기존 정보를 보낸다.
+    } else if (userName.equals(userGId) && userPasswd.equals(userGPass)) {
+        createCookie(response, userName);
+        obtainCookie(request, userName);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("lists.jsp"); // getRequestDisparcher로 list.jsp 호출
         dispatcher.forward(request, response); //forwarding 하여 기존 정보를 보낸다.
