@@ -42,6 +42,7 @@
 
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
+    String userId = request.getParameter("userId");
 
     try {
         Connection conn = DriverManager.getConnection(url, userid, passwd); //DB 연결
@@ -71,7 +72,7 @@
 </head>
 <body>
 <table>
-    <form name=modifyform method=post action="modify_do.jsp?id=<%=idx%>&pg=<%=pg%>">
+    <form name=modifyform method=post action="modify_do.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>">
         <tr>
             <td>
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -95,6 +96,9 @@
                         <td>&nbsp;</td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
+                    <%
+                        if (userId == null) {
+                    %>
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">비밀번호</td>
@@ -108,6 +112,19 @@
                         <td><textarea name="content" cols="50" rows="13"><%=content%></textarea></td>
                         <td>&nbsp;</td>
                     </tr>
+
+                    <%
+                    } else if (userId.equals(author)) {
+                    %>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td align="center">내용</td>
+                        <td><textarea name="content" cols="50" rows="13"><%=content%></textarea></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <%
+                        }
+                    %>
                     <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
                     <tr height="1" bgcolor="#82B5DF"><td colspan="4"></td></tr>
                     <tr align="right">

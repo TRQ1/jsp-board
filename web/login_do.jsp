@@ -18,7 +18,6 @@
     Connection conn = connDb(); // DB connection 메소드 호출
     PreparedStatement pstm = null;
     ResultSet rs = null;
-    String userId = request.getParameter("userId");
     String userGetName = null;
     String userGetPass = null;
     String noAccountUser = null;
@@ -48,21 +47,11 @@
 
     String userGId = userGetName;
     String userGPass = userGetPass;
-    if (userName == null && userPasswd == null) {
+    if (userName.equals(userGId) && userPasswd.equals(userGPass)) {
+        String randomPassword = generateRandomString(10);
+        createCookie(response, userName, randomPassword);
         RequestDispatcher dispatcher = request.getRequestDispatcher("lists.jsp"); // getRequestDisparcher로 list.jsp 호출
         dispatcher.forward(request, response); //forwarding 하여 기존 정보를 보낸다.
-    } else if (userName.equals(userGId) && userPasswd.equals(userGPass)) {
-        createCookie(response, userName);
-        obtainCookie(request, userName);
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("lists.jsp"); // getRequestDisparcher로 list.jsp 호출
-        dispatcher.forward(request, response); //forwarding 하여 기존 정보를 보낸다.
-    } else if (userName == userGId && userPasswd != userGPass) {
-        out.println("<br>");
-        out.println("<font color='red' size='5'>패스워드가 틀렸습니다. 확인해 주세요.</font>");
-    } else if (userName != userGId) {
-        out.println("<br>");
-        out.println("<font color='red' size='5'>계정이 없습니다. 아이디를 확인해 주세요.</font>");
     }
 %>
 

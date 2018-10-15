@@ -9,25 +9,24 @@
 <%@ page import="java.io.*" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%!
-    public void createCookie(HttpServletResponse response, String userId) {
-        Cookie cookie = new Cookie("board", userId);    // 쿠키를 생성한다. 이름:testCookie, 값 : Hello Cookie
+    public void createCookie(HttpServletResponse response, String userId, String random) {
+        Cookie cookie = new Cookie(userId, random);    // 쿠키를 생성한다. 이름:testCookie, 값 : Hello Cookie
         cookie.setMaxAge(365 * 24 * 60 * 60);                                 // 쿠키의 유효기간을 365일로 설정한다.
         cookie.setPath("/");                                                    // 쿠키의 유효한 디렉토리를 "/" 로 설정한다.
         response.addCookie(cookie);
     }
 
-
-    public String obtainCookie(HttpServletRequest request, String userId) {
-        String cookieValue = null;
+    public String checkLogin(HttpServletRequest request, String userId) {
+        String cookieUser = null;
         Cookie[] cookies = request.getCookies(); // 요청정보로부터 쿠키를 가져온다.
         for (Cookie cookie : cookies) {      // 쿠키 배열을 반복문으로 돌린다.
-            if (cookie.getValue().equals(userId)) {
-                cookieValue = cookie.getValue(); // 쿠키값을 가져온다.
-                System.out.println("cookieValue : " + cookieValue);
-                }
+            if (cookie.getName().equals(userId)) {
+                cookieUser = cookie.getName(); // 쿠키값을 가져온다.
             }
-        return cookieValue;
+        }
+        return cookieUser;
     }
+
 
     public void deleteCookie(HttpServletRequest request, HttpServletResponse response, String userId) {
         Cookie[] cookies = request.getCookies();                   // 요청에서 쿠키를 가져온다.
@@ -41,5 +40,15 @@
         }
     }
 
+    public String generateRandomString(int size) {
+        String chars[] = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,0,1,2,3,4,5,6,7,8,9".split(",");
+
+        StringBuffer buffer = new StringBuffer();
+        Random random = new Random();
+        for (int i = 0; i < size; i++) {
+            buffer.append(chars[random.nextInt(chars.length)]);
+        }
+        return buffer.toString();
+    }
 
 %>

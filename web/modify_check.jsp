@@ -23,6 +23,8 @@ function modifyCheck()
 <%
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
+    String userId = request.getParameter("userId");
+
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -55,7 +57,8 @@ function modifyCheck()
                         <td colspan="2">
                             <input type=button value="취소" OnClick="javascript:history.back(-1)">
                             <input type=button value="확인" OnClick="javascript:modifyCheck();">
-                            <input type=button value="목록" OnClick="window.location='lists.jsp?id=<%=idx%>&pg=<%=pg%>'">
+                            <input type=button value="목록"
+                                   OnClick="window.location='lists.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>'">
                         <td>&nbsp;</td>
                     </tr>
                 </table>

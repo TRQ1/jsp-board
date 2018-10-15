@@ -17,13 +17,11 @@
      * 쿠키값 불러오기 (로그인된 쿠키값을 확인)
      */
     String userId = request.getParameter("userId");
-    System.out.println("userid : " + userId);
-    String cookies = obtainCookie(request, userId);
+    String cookies = checkLogin(request, userId);
     System.out.println("cookiestest : " + cookies);
     String cookieValue = null;
     if (cookies != null) {
         cookieValue = cookies;
-        System.out.println("cookies1 : " + cookies);
     } else {
         cookieValue = "방문자";
         System.out.println("cookies1 : " + cookies);
@@ -137,9 +135,10 @@
                 }
                 if (indent != 0) {
                 }
+
             %>
             <!-- get 방식으로 주소 뒤에 ?를 붙인 변수명=변수값 이 해당 주소에 입력 -->
-            <a href="detail.jsp?id=<%=id%>&pg=<%=pg%>&user=<%=userId%>"><%=title %>
+            <a href="detail.jsp?id=<%=id%>&pg=<%=pg%>&userId=<%=userId%>"><%=title %>
         </td>
         <td align="center"><%=author %></td>
         <td align="center"><%=todate %></td>
@@ -167,8 +166,8 @@
             <%
                 if(pg > countPage) {  //  기본 페이지수
             %>
-            [<a href="lists.jsp?pg=1">◀◀</a>]
-            [<a href="lists.jsp?pg=<%=startPage-1%>">◀</a>]
+            [<a href="lists.jsp?pg=1&userId=<%=userId%>">◀◀</a>]
+            [<a href="lists.jsp?pg=<%=startPage-1%>&userId=<%=userId%>">◀</a>]
             <%
                 }
             %>
@@ -181,7 +180,8 @@
             <%
             }else{
             %>
-            [<a href="lists.jsp?pg=<%=i %>"><%=i %></a>]
+            [<a href="lists.jsp?pg=<%=i %>&userId=<%=userId%>"><%=i %>
+        </a>]
             <%
                     }
                 }
@@ -190,8 +190,8 @@
             <%
                 if(endPage < allPage){  // 마지막 페이지가 모든 페이지보다 낮을 경우에는 다음을 눌렀을때 마지막 페이지 + 1을 값으로 페이징을 호출,
             %>
-            [<a href="lists.jsp?pg=<%=endPage+1%>">▶</a>]
-            [<a href="lists.jsp?pg=<%=allPage%>">▶▶</a>]
+            [<a href="lists.jsp?pg=<%=endPage+1%>&userId=<%=userId%>">▶</a>]
+            [<a href="lists.jsp?pg=<%=allPage%>&userId=<%=userId%>">▶▶</a>]
             <%
                 }
             %>
