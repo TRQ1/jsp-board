@@ -7,6 +7,7 @@
 --%>
 <%@ page import="java.sql.*"%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@include file="database_process.jsp" %>
 <script language = "javascript">
     function modifyCheck() {
         var form = document.modifyform;
@@ -30,10 +31,9 @@
 <%
     request.setCharacterEncoding("UTF-8");
 
-    Class.forName("org.mariadb.jdbc.Driver");
-    String url = "jdbc:mariadb://localhost:3306/boards";
-    String userid = "root";
-    String passwd = "qwer0987";
+    Connection conn = connDb(); // DB connection 메소드 호출
+    PreparedStatement pstm = null;
+    ResultSet rs = null;
 
     String author = "";
     String content = "";
@@ -45,12 +45,12 @@
     String userId = request.getParameter("userId");
 
     try {
-        Connection conn = DriverManager.getConnection(url, userid, passwd); //DB 연결
-        Statement stmt = conn.createStatement();
 
-        String sql = "SELECT author, title, content, passwd FROM board WHERE id=" + idx;
-        System.out.println(sql);
-        ResultSet rs = stmt.executeQuery(sql);
+        String sqlSelect = "SELECT author, title, content, passwd FROM board WHERE id=" + idx;
+        pstm = conn.prepareStatement(sqlSelect);
+        rs = pstm.executeQuery(sqlSelect);
+
+        System.out.println(sqlSelect);
 
         if(rs.next()) {
             author = rs.getString(1);
@@ -58,11 +58,11 @@
             content = rs.getString(3);
             spassword = rs.getString(4);
         }
-        rs.close();
-        stmt.close();
-        conn.close();
     }catch(SQLException e) {
-       System.out.println(e.toString());
+        System.out.println(e.toString());
+    } finally {
+        close(pstm, conn);
+        resultClose(rs);
     }
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

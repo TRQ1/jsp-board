@@ -128,7 +128,7 @@
         <td><%=id %></td>
         <td align="left">
             <%
-                for (int j = 0; j < indent; j++) {
+                for (int j = 0; j < indent; j++) { //ident값 기준으로 들여쓰기 하기
             %>
             &nbsp;&nbsp;&nbsp;
             <%
@@ -180,7 +180,7 @@
             <%
             }else{
             %>
-            [<a href="lists.jsp?pg=<%=i %>&userId=<%=userId%>"><%=i %>
+            [<a href="lists.jsp?pg=<%=i%>&userId=<%=userId%>"><%=i %>
         </a>]
             <%
                     }
