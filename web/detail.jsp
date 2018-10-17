@@ -193,7 +193,10 @@
                         String todateBefore = rs.getString(3);
                         String todateComment = todateBefore.substring(0, todateBefore.length() - 2);
 
-                        if (userId.equals(author) || userId.equals(authorComment)) {
+                        System.out.println("author : " + author);
+                        System.out.println("authorComment : " + authorComment);
+
+                        if (userId.equals(author) && userId.equals(authorComment)) {
                 %>
                 <tr align="left">
                     <td align="left"><%=authorComment%>
@@ -208,7 +211,7 @@
                     </td>
                     <td align="right">
                         <input type=button value="댓글 삭제"
-                               OnClick="window.location='comment_account_delete.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>&content=<%=contentComment%>">
+                               OnClick="window.location='comment_account_delete.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>&content=<%=contentComment%>'">
                     </td>
                 </tr>
                 <%

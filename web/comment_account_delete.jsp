@@ -7,19 +7,16 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@include file="database_process.jsp" %>
-<%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@include file="database_process.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
 
-    String password = "";
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
     String userId = request.getParameter("userId");
     String content = request.getParameter("content");
-    String pass = request.getParameter("password");
 
     int id = sqlSelectCommentId(content, idx);
+    System.out.println(id);
 
     sqlCommentDelete(id);
 %>
