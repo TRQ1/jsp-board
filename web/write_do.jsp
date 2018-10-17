@@ -18,10 +18,26 @@
     int countAfter = 0;
     int max = 0;
 
-    String author = request.getParameter("author"); //write.jsp에서 author에 입력한 데이터값
-    String password = request.getParameter("password"); //write.jsp에서 password에 입력한 데이터값
-    String title = request.getParameter("title"); //write.jsp에서 title에 입력한 데이터값
-    String content = request.getParameter("content"); //write.jsp에서 content에 입력한 데이터값
+    int id = Integer.parseInt(request.getParameter("id"));
+    int pg = Integer.parseInt(request.getParameter("pg"));
+    String userId = request.getParameter("userId");
+    String author = null;
+    String password = null;
+    String title = null;
+    String content = null;
+
+    author = request.getParameter("author"); //write.jsp에서 author에 입력한 데이터값
+    password = request.getParameter("password"); //write.jsp에서 password에 입력한 데이터값
+    title = request.getParameter("title"); //write.jsp에서 title에 입력한 데이터값
+    content = request.getParameter("content"); //write.jsp에서 content에 입력한 데이터   값
+
+    /**
+     * 회원 로그인시 작성자와 패스워드를 안받기때문에 처리 해주는 로직
+     */
+    if (author == null && password == null) {
+        author = userId;
+        password = "null";
+    }
 
     String sqlMax = "SELECT MAX(id) FROM board";
     pstm = conn.prepareStatement(sqlMax);
@@ -42,7 +58,7 @@
 %>
 <script language=javascript>
     self.window.alert("입력한 글을 저장하였습니다.");
-    location.href="lists.jsp";
+    location.href = "lists.jsp?id=<%=id%>&pg=<%=pg%>&userId=<%=userId%>";
 </script>
 <%
         System.out.println("done");

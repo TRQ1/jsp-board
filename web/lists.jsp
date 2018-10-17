@@ -31,6 +31,7 @@
     final int pageSize = 5;// 한페이지에 보일 게시물 수 
     final int countPage = 6;// 아래에 보일 페이지 최대개수 1~5 / 6~10 / 11~15 식으로 5개로 고정 
     int pg = 1; //기본 페이지값 
+    int id = 0;
 
     if(request.getParameter("pg")!=null) {//받아온 pg값이 있을때, 다른페이지일때 
         pg = Integer.parseInt(request.getParameter("pg"));// pg값을 저장
@@ -105,7 +106,7 @@
     <%
     } else {
         while(rs.next()) { // rs 값이 있을 경우
-            int id = rs.getInt(1);
+            id = rs.getInt(1);
             String author = rs.getString(2);
             String checkTitle = rs.getString(3);
             String todateBefore = rs.getString(4);
@@ -200,7 +201,8 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr><td colspan="4" height="5"></td></tr>
     <tr align="right">
-        <td><input type=button value="글쓰기" OnClick="window.location='write.jsp'"></td>
+        <td><input type=button value="글쓰기"
+                   OnClick="window.location='write.jsp?id=<%=id%>&pg=<%=pg%>&userId=<%=userId%>'"></td>
     </tr>
 </table>
 </table>
