@@ -21,7 +21,7 @@
         Cookie[] cookies = request.getCookies(); // 요청정보로부터 쿠키를 가져온다.
         for (Cookie cookie : cookies) {      // 쿠키 배열을 반복문으로 돌린다.
             if (cookie.getName().equals(userId)) {
-                cookieUser = cookie.getName(); // 쿠키값을 가져온다.
+                cookieUser = cookie.getValue(); // 쿠키값을 가져온다.
             }
         }
         return cookieUser;

@@ -9,6 +9,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@include file="database_process.jsp" %>
 <%@include file="cookie_process.jsp" %>
+<%@include file="checkLogin.jsp" %>
 <%
     String userName = request.getParameter("userId");
     String userPasswd = request.getParameter("userPasswd");
@@ -49,9 +50,8 @@
     String userGPass = userGetPass;
     if (userName.equals(userGId) && userPasswd.equals(userGPass)) {
         String randomPassword = generateRandomString(10);
-        createCookie(response, userName, randomPassword);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("lists.jsp"); // getRequestDisparcher로 list.jsp 호출
-        dispatcher.forward(request, response); //forwarding 하여 기존 정보를 보낸다.
+        createCookie(response, "loginId", userName);
+        response.sendRedirect("lists.jsp");
     }
 %>
 

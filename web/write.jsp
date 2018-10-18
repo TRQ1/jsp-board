@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@include file="database_process.jsp" %>
+<%@include file="cookie_process.jsp" %>
+<%@include file="checkLogin.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <script language = "javascript"> // 자바 스크립트 시작
 function writeCheck()
@@ -53,7 +55,7 @@ function writeCheck()
 
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
+    String userId = loginId;
 
 %>
 <html>
