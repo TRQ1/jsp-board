@@ -12,7 +12,6 @@
 
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
     String content = request.getParameter("content");
 
     int id = sqlSelectCommentId(content, idx);
@@ -22,6 +21,6 @@
 %>
 <script language=javascript>
     self.window.alert("해당 글을 삭제하였습니다.");
-    location.href = "lists.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>";
+    location.href = "lists.jsp?id=<%=idx%>&pg=<%=pg%>";
 </script>
 

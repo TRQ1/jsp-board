@@ -16,7 +16,6 @@
     String password = "";
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
     String content = request.getParameter("content");
     String pass = request.getParameter("password");
     String author = request.getParameter("author");
@@ -26,7 +25,7 @@
     password = sqlCommentPasswd(id);
     System.out.println("pass : " + password);
     if (password.equals(pass)) {
-        response.sendRedirect("comment_modify.jsp?id=" + idx + "&pg=" + pg + "&cid=" + id + "&userId=" + userId + "&author=" + author);
+        response.sendRedirect("comment_modify.jsp?id=" + idx + "&pg=" + pg + "&cid=" + id + "&author=" + author);
     } else {        // 그게 아닐경우 알람창 발생
 %>
 <script language=javascript>

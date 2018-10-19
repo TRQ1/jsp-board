@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@include file="database_process.jsp" %>
+<%@include file="checkLogin.jsp" %>
 <%
 
     /**
@@ -17,7 +18,7 @@
     int id = Integer.parseInt(request.getParameter("id")); // 원래 글의 parent
     int cid = Integer.parseInt(request.getParameter("cid"));  // 댓글 ID
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
+    String userId = loginId;
     String content = request.getParameter("content");
     String author = request.getParameter("author"); // 댓글 쓴 사람
 
@@ -37,7 +38,7 @@
         if (userId.equals(author)) {
     %>
     <form name=commentModifyform method=post
-          action="comment_modify_do.jsp?id=<%=id%>&pg=<%=pg%>&userId=<%=userId%>&author=<%=author%>&cid=<%=caId%>">
+          action="comment_modify_do.jsp?id=<%=id%>&pg=<%=pg%>&author=<%=author%>&cid=<%=caId%>">
         <tr>
             <td align="right" width="76">사용자:</td>
             <td><%=author%>
@@ -51,7 +52,7 @@
         } else if(userId.equals("null") && author != null){
     %>
         <form name=commentModifyform method=post
-              action="comment_modify_do.jsp?id=<%=id%>&pg=<%=pg%>&userId=<%=userId%>&author=<%=author%>&cid=<%=cid%>">
+              action="comment_modify_do.jsp?id=<%=id%>&pg=<%=pg%>&author=<%=author%>&cid=<%=cid%>">
             <tr>
                 <td align="right" width="76">사용자:</td>
                 <td><%=author%>

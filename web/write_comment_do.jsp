@@ -8,6 +8,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@include file="database_process.jsp" %>
+<%@include file="checkLogin.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
     Connection conn = connDb(); // DB connection 메소드 호출
@@ -19,7 +20,7 @@
 
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String author = request.getParameter("userId");
+    String author = loginId;
     String content = request.getParameter("contentComment");
 
 
@@ -34,7 +35,7 @@
 %>
 <script language=javascript>
     self.window.alert("입력한 글을 저장하였습니다.");
-    location.href = "lists.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=author%>";
+    location.href = "lists.jsp?id=<%=idx%>&pg=<%=pg%>";
 </script>
 <%
         System.out.println("done");

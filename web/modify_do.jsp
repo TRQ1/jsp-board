@@ -15,7 +15,6 @@
 
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
 
 
     String title = request.getParameter("title");
@@ -25,5 +24,5 @@
 %>
 <script language=javascript>
     self.window.alert("글이 수정되었습니다.");
-    location.href = "lists.jsp?pg=<%=pg%>&userId=<%=userId%>";
+    location.href = "lists.jsp?pg=<%=pg%>";
 </script>

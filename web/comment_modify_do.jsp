@@ -14,12 +14,11 @@
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
     int cid = Integer.parseInt(request.getParameter("cid"));
-    String userId = request.getParameter("userId");
     String content = request.getParameter("contentComment");
 
     sqlCommentUpdate(content, cid);
 %>
 <script language=javascript>
     self.window.alert("댓글이 수정되었습니다.");
-    location.href = "detail.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>";
+    location.href = "detail.jsp?id=<%=idx%>&pg=<%=pg%>";
 </script>

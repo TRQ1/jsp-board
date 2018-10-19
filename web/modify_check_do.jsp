@@ -13,13 +13,9 @@
 <%
     request.setCharacterEncoding("UTF-8");
 
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection conn = connDb(); // DB connection 메소드 호출
-
     String password = "";
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
     String pass = request.getParameter("password");
 
     password = sqlPasswd(idx); //메소드 호출하여 password 확인

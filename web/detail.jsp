@@ -8,6 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@include file="database_process.jsp" %>
+<%@include file="checkLogin.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
     Connection conn = connDb(); // DB connection 메소드 호출
@@ -17,19 +18,11 @@
     int idx = Integer.parseInt(request.getParameter("id")); // lists.jsp에서 get 메소드로 전달된 id 값
     int pg = Integer.parseInt(request.getParameter("pg"));
     int cid = 0;
-    String userId = request.getParameter("userId");
-    String loginUserName = null;
-    String loginVistorName = null;
+    String userId = loginId;
     String author = null;
     String title = null;
     String content = null;
 
-
-    if (userId.equals("null")) {
-        loginVistorName = "vistor";
-    } else if (!userId.equals("null")) {
-        loginUserName = userId;
-    }
 
     try {
         String sqlSelect = "SELECT author, title, content, todate FROM board WHERE id=" + idx;
@@ -105,15 +98,15 @@
                            if(userId.equals(author)) {
                         %>
                         <input type=button value="수정" name=id
-                               OnClick="window.location='modify.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>'">
+                               OnClick="window.location='modify.jsp?id=<%=idx%>&pg=<%=pg%>'">
                         <input type=button value="삭제" name=id OnClick="window.location='delete.jsp?id=<%=idx%>&pg=<%=pg%>'">
                         <input type=button value="목록"
-                               OnClick="window.location='lists.jsp?pg=<%=pg%>&userId=<%=userId%>'">
+                               OnClick="window.location='lists.jsp?pg=<%=pg%>'">
                             <%
                          } else {
                         %>
                         <input type=button value="수정" name=id
-                               OnClick="window.location='modify_check.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>'">
+                               OnClick="window.location='modify_check.jsp?id=<%=idx%>&pg=<%=pg%>'">
                         <input type=button value="답글" name=id
                                OnClick="window.location='reply.jsp?id=<%=idx%>&pg=<%=pg%>'">
                         <input type=button value="삭제" name=id
@@ -134,10 +127,10 @@
                         pstm = conn.prepareStatement(sqlList);
                         rs = pstm.executeQuery(sqlList);
 
-                        if (userId != loginVistorName && userId.equals(loginUserName)) {
+                        if (!userId.equals("null")) {
                 %>
                 <form name=writecommentcheckform method=post
-                      action="write_comment_do.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>">
+                      action="write_comment_do.jsp?id=<%=idx%>&pg=<%=pg%>">
                     <tr>
                         <td align="right" width="76">사용자:</td>
                         <td width="319" name="userId"><%=userId%>
@@ -207,15 +200,15 @@
                     </td>
                     <td align="right">
                         <input type=button value="댓글 수정"
-                               OnClick="window.location='comment_modify.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>&content=<%=contentComment%>&author=<%=authorComment%>&cid=<%=cid%>'">
+                               OnClick="window.location='comment_modify.jsp?id=<%=idx%>&pg=<%=pg%>&content=<%=contentComment%>&author=<%=authorComment%>&cid=<%=cid%>'">
                     </td>
                     <td align="right">
                         <input type=button value="댓글 삭제"
-                               OnClick="window.location='comment_account_delete.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>&content=<%=contentComment%>'">
+                               OnClick="window.location='comment_account_delete.jsp?id=<%=idx%>&pg=<%=pg%>&content=<%=contentComment%>'">
                     </td>
                 </tr>
                 <%
-                } else if (userId.equals("null")) {
+                } else {
                 %>
                 <tr align="left">
                     <td align="left"><%=authorComment%>
@@ -226,11 +219,11 @@
                     </td>
                     <td align="right">
                         <input type=button value="댓글 수정"
-                               OnClick="window.location='comment_modify_check.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>&content=<%=contentComment%>&author=<%=authorComment%>'">
+                               OnClick="window.location='comment_modify_check.jsp?id=<%=idx%>&pg=<%=pg%>&content=<%=contentComment%>&author=<%=authorComment%>'">
                     </td>
                     <td align="right">
                         <input type=button value="댓글 삭제"
-                               OnClick="window.location='comment_delete.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>&content=<%=contentComment%>&cid=<%=cid%>'">
+                               OnClick="window.location='comment_delete.jsp?id=<%=idx%>&pg=<%=pg%>&content=<%=contentComment%>&cid=<%=cid%>'">
 
                     </td>
                 </tr>

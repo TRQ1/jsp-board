@@ -20,7 +20,6 @@
 
     int id = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
     String author = null;
     String password = null;
     String title = null;
@@ -58,7 +57,7 @@
 %>
 <script language=javascript>
     self.window.alert("입력한 글을 저장하였습니다.");
-    location.href = "lists.jsp?id=<%=id%>&pg=<%=pg%>&userId=<%=userId%>";
+    location.href = "lists.jsp?id=<%=id%>&pg=<%=pg%>";
 </script>
 <%
         System.out.println("done");

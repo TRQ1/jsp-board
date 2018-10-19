@@ -13,7 +13,6 @@
     String password = "";
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
     String content = request.getParameter("content");
     String pass = request.getParameter("password");
     String author = request.getParameter("author");
@@ -27,7 +26,7 @@
 %>
 <script language=javascript>
     self.window.alert("해당 글을 삭제하였습니다.");
-    location.href = "lists.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=author%>";
+    location.href = "lists.jsp?id=<%=idx%>&pg=<%=pg%>";
 </script>
 <%
 } else {        // 그게 아닐경우 알람창 발생

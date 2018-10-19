@@ -7,10 +7,11 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@include file="database_process.jsp" %>
+<%@include file="checkLogin.jsp" %>
 <%
     int id = Integer.parseInt(request.getParameter("id")); // 원래 글의 parent
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
+    String userId = loginId;
     String content = request.getParameter("content");
 
     int caId = sqlSelectCommentId(content, id);
@@ -23,7 +24,7 @@
 <body>
 <table>
     <form name=deleteform method=post
-          action="comment_delete_do.jsp?id=<%=id%>&pg=<%=pg%>&userId=<%=userId%>&cid=<%=caId%>">
+          action="comment_delete_do.jsp?id=<%=id%>&pg=<%=pg%>&cid=<%=caId%>">
         <tr>
             <td>
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">

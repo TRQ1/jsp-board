@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+
 <script language="javascript">  // 자바 스크립트 시작
 function modifyCheck() {
     var form = document.modifyform;
@@ -18,14 +19,12 @@ function modifyCheck() {
     form.submit();
 }
 </script>
+
 <%
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
     String content = request.getParameter("content");
     String author = request.getParameter("author");
-
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -64,7 +63,7 @@ function modifyCheck() {
                             <input type=button value="취소" OnClick="javascript:history.back(-1)">
                             <input type=button value="확인" OnClick="javascript:modifyCheck();">
                             <input type=button value="목록"
-                                   OnClick="window.location='lists.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>'">
+                                   OnClick="window.location='lists.jsp?id=<%=idx%>&pg=<%=pg%>'">
                         <td>&nbsp;</td>
                     </tr>
                 </table>

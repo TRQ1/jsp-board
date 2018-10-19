@@ -8,6 +8,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@include file="database_process.jsp" %>
+<%@include file="checkLogin.jsp" %>
 <script language = "javascript">
     function modifyCheck() {
         var form = document.modifyform;
@@ -42,7 +43,7 @@
 
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
-    String userId = request.getParameter("userId");
+    String userId = loginId;
 
     try {
 
@@ -72,7 +73,7 @@
 </head>
 <body>
 <table>
-    <form name=modifyform method=post action="modify_do.jsp?id=<%=idx%>&pg=<%=pg%>&userId=<%=userId%>">
+    <form name=modifyform method=post action="modify_do.jsp?id=<%=idx%>&pg=<%=pg%>">
         <tr>
             <td>
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">

@@ -9,8 +9,8 @@
 <%@ page import="java.io.*" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%!
-    public void createCookie(HttpServletResponse response, String userId, String random) {
-        Cookie cookie = new Cookie(userId, random);    // 쿠키를 생성한다. 이름:testCookie, 값 : Hello Cookie
+    public void createCookie(HttpServletResponse response, String cookieName, String userId) {
+        Cookie cookie = new Cookie(cookieName, userId);    // 쿠키를 생성한다. 이름:testCookie, 값 : Hello Cookie
         cookie.setMaxAge(365 * 24 * 60 * 60);                                 // 쿠키의 유효기간을 365일로 설정한다.
         cookie.setPath("/");                                                    // 쿠키의 유효한 디렉토리를 "/" 로 설정한다.
         response.addCookie(cookie);
@@ -21,7 +21,7 @@
         Cookie[] cookies = request.getCookies(); // 요청정보로부터 쿠키를 가져온다.
         for (Cookie cookie : cookies) {      // 쿠키 배열을 반복문으로 돌린다.
             if (cookie.getName().equals(userId)) {
-                cookieUser = cookie.getName(); // 쿠키값을 가져온다.
+                cookieUser = cookie.getValue(); // 쿠키값을 가져온다.
             }
         }
         return cookieUser;
