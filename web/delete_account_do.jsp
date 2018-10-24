@@ -16,7 +16,7 @@
 
     int idx = Integer.parseInt(request.getParameter("id"));
 
-    sqlDelete(idx);
+    sqlPostDelete(idx);
 %>
 <script language=javascript>
     self.window.alert("해당 글을 삭제하였습니다.");

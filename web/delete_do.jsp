@@ -23,7 +23,7 @@
 
     //password값이랑 파라메터로 받아온 pass값이 같을 경우 글 삭제
     if (password.equals(pass)) {
-        sqlDelete(idx);
+        sqlPostDelete(idx);
 %>
 <script language=javascript>
     self.window.alert("해당 글을 삭제하였습니다.");

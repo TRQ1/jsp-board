@@ -560,4 +560,48 @@
         return total;
     }
 
+    /**
+     * 삭제된 Post 값 상태를 변경하기 위한 메소드
+     * @param idx
+     */
+    public void sqlPostDelete(int idx) {
+        PreparedStatement pstm = null;
+        Connection conn = connDb();
+        try {
+            String sqlUpdate = "UPDATE board SET status='deleted' WHERE id=" + idx;
+            pstm = conn.prepareStatement(sqlUpdate);
+            pstm.executeUpdate(sqlUpdate);
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            close(pstm, conn);
+        }
+    }
+
+    /**
+     * 삭제된 글을 읽어드리기 위한 메소드
+     * @param idx
+     * @return
+     */
+    public String sqlPostStatusSelect(int idx) {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        Connection conn = connDb();
+        String statusSelect = "";
+        try {
+            String sqlSelect = "SELECT status FROM board WHERE id=" + idx;
+            pstm = conn.prepareStatement(sqlSelect);
+            rs = pstm.executeQuery(sqlSelect);
+
+            if (rs.next()) {
+                statusSelect = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            close(pstm, conn);
+            resultClose(rs);
+        }
+        return statusSelect;
+    }
 %>
