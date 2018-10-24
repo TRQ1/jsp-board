@@ -9,4 +9,8 @@
 <%@ include file="cookie_process.jsp" %>
 <%
     String loginId = checkLogin(request, "loginId");
+
+    if (loginId == null || loginId.equals("null")) {
+        loginId = "null";
+    }
 %>
