@@ -99,9 +99,16 @@
                         %>
                         <input type=button value="수정" name=id
                                OnClick="window.location='modify.jsp?id=<%=idx%>&pg=<%=pg%>'">
-                        <input type=button value="삭제" name=id OnClick="window.location='delete.jsp?id=<%=idx%>&pg=<%=pg%>'">
+                        <input type=button value="삭제" name=id
+                               OnClick="window.location='delete_account_do.jsp?id=<%=idx%>&pg=<%=pg%>'">
                         <input type=button value="목록"
                                OnClick="window.location='lists.jsp?pg=<%=pg%>'">
+                            <%
+                         } else if(!userId.equals(author) && userId != null && !userId.equals("null")) {
+                        %>
+                        <input type=button value="답글" name=id
+                               OnClick="window.location='reply.jsp?id=<%=idx%>&pg=<%=pg%>'">
+                        <input type=button value="목록" OnClick="window.location='lists.jsp?pg=<%=pg%>'">
                             <%
                          } else {
                         %>
@@ -189,7 +196,7 @@
                         System.out.println("author : " + author);
                         System.out.println("authorComment : " + authorComment);
 
-                        if (userId.equals(author) && userId.equals(authorComment)) {
+
                 %>
                 <tr align="left">
                     <td align="left"><%=authorComment%>
@@ -198,25 +205,9 @@
                     </td>
                     <td align="right"><%=todateComment%>
                     </td>
-                    <td align="right">
-                        <input type=button value="댓글 수정"
-                               OnClick="window.location='comment_modify.jsp?id=<%=idx%>&pg=<%=pg%>&content=<%=contentComment%>&author=<%=authorComment%>&cid=<%=cid%>'">
-                    </td>
-                    <td align="right">
-                        <input type=button value="댓글 삭제"
-                               OnClick="window.location='comment_account_delete.jsp?id=<%=idx%>&pg=<%=pg%>&content=<%=contentComment%>'">
-                    </td>
-                </tr>
-                <%
-                } else {
-                %>
-                <tr align="left">
-                    <td align="left"><%=authorComment%>
-                    </td>
-                    <td align="left" colspan="1"><%=contentComment%>
-                    </td>
-                    <td align="right"><%=todateComment%>
-                    </td>
+                    <%
+                        if (userId.equals("null") || userId == null) {
+                    %>
                     <td align="right">
                         <input type=button value="댓글 수정"
                                OnClick="window.location='comment_modify_check.jsp?id=<%=idx%>&pg=<%=pg%>&content=<%=contentComment%>&author=<%=authorComment%>'">
@@ -226,10 +217,21 @@
                                OnClick="window.location='comment_delete.jsp?id=<%=idx%>&pg=<%=pg%>&content=<%=contentComment%>&cid=<%=cid%>'">
 
                     </td>
+                    <%
+                    } else if (userId.equals(authorComment)) {
+                    %>
+                    <td align="right">
+                        <input type=button value="댓글 수정"
+                               OnClick="window.location='comment_modify.jsp?id=<%=idx%>&pg=<%=pg%>&content=<%=contentComment%>&author=<%=authorComment%>&cid=<%=cid%>'">
+                    </td>
+                    <td align="right">
+                        <input type=button value="댓글 삭제"
+                               OnClick="window.location='comment_account_delete.jsp?id=<%=idx%>&pg=<%=pg%>&content=<%=contentComment%>'">
+                    </td>
+                    <%
+                        }
+                    %>
                 </tr>
-                <%
-                    }
-                %>
                 <tr height="1" bgcolor="#dddddd">
                     <td colspan="2" width="200"></td>
                 </tr>

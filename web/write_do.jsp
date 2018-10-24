@@ -37,7 +37,7 @@
      */
     if (author == null && password == null) {
         author = userId;
-        password = "null";
+        password = sqlGetPasswd(userId);
     }
 
     String sqlMax = "SELECT MAX(id) FROM board";

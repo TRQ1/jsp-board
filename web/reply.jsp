@@ -7,42 +7,13 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@include file="database_process.jsp" %>
-<script language="javascript">
-
-    function replyCheck() {
-        var form = document.replyform;
-
-        if (!form.author.value) {
-            alert("이름을 적어주세요"); // 경고창 띄움
-            form.author.focus();
-            return;
-        }
-
-        if (!form.password.value) {
-            alert("비밀번호를 적어주세요");
-            form.password.focus();
-            return;
-        }
-
-        if (!form.title.value) {
-            alert("제목을 적어주세요");
-            form.title.focus();
-            return;
-        }
-
-        if (!form.content.value) {
-            alert("내용을 적어주세요");
-            form.content.focus();
-            return;
-        }
-
-        form.submit();
-    }
-</script>
+<%@include file="checkLogin.jsp" %>
 <%
     int idx = Integer.parseInt(request.getParameter("id"));
     int pg = Integer.parseInt(request.getParameter("pg"));
+    String userId = loginId;
 
+    request.setCharacterEncoding("UTF-8");
     Connection conn = connDb(); // DB connection 메소드 호출
     PreparedStatement pstm = null;
     ResultSet rs = null;
@@ -91,6 +62,9 @@
                     <tr height="1" bgcolor="#dddddd">
                         <td colspan="4"></td>
                     </tr>
+                    <%
+                        if (userId == null || userId.equals("null")) {
+                    %>
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">이름</td>
@@ -103,12 +77,28 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">비밀번호</td>
-                        <td><input name="password" size="50" maxlength="50"></td>
+                        <td><input name="password" type="password" size="50" maxlength="50"></td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr height="1" bgcolor="#dddddd">
                         <td colspan="4"></td>
                     </tr>
+                    <%
+                    } else {
+                    %>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td align="center">이름</td>
+                        <td><%=userId%>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr height="1" bgcolor="#dddddd">
+                        <td colspan="4"></td>
+                    </tr>
+                    <%
+                        }
+                    %>
                     <tr>
                         <td>&nbsp;</td>
                         <td align="center">내용</td>
@@ -124,7 +114,7 @@
                     <tr align="right">
                         <td>&nbsp;</td>
                         <td colspan="2">
-                            <input type=button value="등록" OnClick="javascript:replyCheck();">
+                            <input type=submit value="등록">
                             <input type=button value="취소" OnClick="javascript:history.back(-1)">
                         <td>&nbsp;</td>
                     </tr>

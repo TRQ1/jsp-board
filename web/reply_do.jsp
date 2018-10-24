@@ -7,12 +7,30 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@include file="database_process.jsp" %>
+<%@include file="checkLogin.jsp" %>
 <%
-    String author = request.getParameter("author");
-    String password = request.getParameter("password");
-    String title = request.getParameter("title");
-    String content = request.getParameter("content");
+    request.setCharacterEncoding("UTF-8");
+    String author = null;
+    String password = null;
+    String title = null;
+    String content = null;
+    String userId = loginId;
+
+    author = request.getParameter("author");
+    password = request.getParameter("password");
+    title = request.getParameter("title");
+    content = request.getParameter("content");
+
+    System.out.println("author: " + author);
+    System.out.println("pass: " + password);
     int idx = Integer.parseInt(request.getParameter("id"));
+
+    if (author == null && password == null) {
+        author = userId;
+        password = sqlGetPasswd(userId);
+    } else {
+
+    }
 
     Connection conn = connDb();
     PreparedStatement pstm = null;
