@@ -27,14 +27,17 @@
         pstm = conn.prepareStatement(sqlAccount);
         rs = pstm.executeQuery(sqlAccount);
 
-        if (rs.next()) {
+        while (rs.next()) {
             int getId = rs.getInt(1);
             userGetName = rs.getString(2);
             userGetPass = rs.getString(3);
 
-            if (userName == userGetName) {
-                useridx = getId;
-                System.out.println("useridx : " + useridx);
+            String userGId = userGetName;
+            String userGPass = userGetPass;
+            if (userName.equals(userGId) && userPasswd.equals(userGPass)) {
+                String randomPassword = generateRandomString(10);
+                createCookie(response, "loginId", userName);
+                response.sendRedirect("lists.jsp");
             }
         }
 
@@ -43,14 +46,6 @@
     } finally {
         close(pstm, conn);
         resultClose(rs);
-    }
-
-    String userGId = userGetName;
-    String userGPass = userGetPass;
-    if (userName.equals(userGId) && userPasswd.equals(userGPass)) {
-        String randomPassword = generateRandomString(10);
-        createCookie(response, "loginId", userName);
-        response.sendRedirect("lists.jsp");
     }
 %>
 
