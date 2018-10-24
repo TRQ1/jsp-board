@@ -538,4 +538,26 @@
         return password;
     }
 
+    public int sqlCommnetCount(int parent) {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        Connection conn = connDb();
+        int total = 0;
+        try {
+            String sqlCount = "SELECT COUNT(*) from comment where parent =" + parent;
+            pstm = conn.prepareStatement(sqlCount);
+            rs = pstm.executeQuery(sqlCount);
+
+            if (rs.next()) {
+                total = rs.getInt(1); // select문 count 값
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            close(pstm, conn);
+            resultClose(rs);
+        }
+        return total;
+    }
+
 %>

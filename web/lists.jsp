@@ -102,6 +102,7 @@
             String todate = todateBefore.substring(0, todateBefore.length() - 2); // 소수점 자르기 추후 데이터 타입 나오게 할 예정
             int indent = rs.getInt(5);
 
+            int commnetCount = sqlCommnetCount(id);
             // checkTitle 에 200자 이상인 경우 ... 을 붙인다.
             String title = ""; // 실제 제목을 넣을 변수
             int titleLen = checkTitle.length(); //
@@ -128,7 +129,17 @@
 
             %>
             <!-- get 방식으로 주소 뒤에 ?를 붙인 변수명=변수값 이 해당 주소에 입력 -->
-            <a href="detail.jsp?id=<%=id%>&pg=<%=pg%>"><%=title %>
+            <%
+                if (commnetCount != 0) {
+            %>
+            <a href="detail.jsp?id=<%=id%>&pg=<%=pg%>"><%=title %> (<%=commnetCount%>)
+                    <%
+                } else if(commnetCount == 0) {
+            %>
+                <a href="detail.jsp?id=<%=id%>&pg=<%=pg%>"><%=title %>
+                        <%
+                }
+            %>
         </td>
         <td align="center"><%=author %></td>
         <td align="center"><%=todate %></td>
