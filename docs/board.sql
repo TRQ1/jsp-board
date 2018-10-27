@@ -11,6 +11,7 @@ CREATE TABLE `board` (
     `indent` int(100) NULL DEFAULT 0,
     `step` int(100) NULL DEFAULT 0,
     `sort` int(100) NULL DEFAULT 0,
+    `status` varchar(100) NULL,
     primary key(id)
 );
 
